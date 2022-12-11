@@ -62,6 +62,12 @@ const Calendar = () => {
     }
   };
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  function addEvent() {
+    setOpen(true);
+  }
   return (
     <Box m="20px">
       <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
@@ -112,6 +118,7 @@ const Calendar = () => {
               interactionPlugin,
               listPlugin,
             ]}
+            select={addEvent}
             headerToolbar={{
               left: "prev,next today",
               center: "title",
@@ -122,7 +129,7 @@ const Calendar = () => {
             selectable={true}
             selectMirror={true}
             dayMaxEvents={true}
-            select={handleDateClick}
+            // select={handleDateClick}
             eventClick={handleEventClick}
             eventsSet={(events) => setCurrentEvents(events)}
             initialEvents={[
@@ -137,7 +144,29 @@ const Calendar = () => {
                 date: "2022-09-28",
               },
             ]}
+            // customButtons={{
+            //   addEvent: {
+            //     text: "+",
+            //     click: addEvent,
+            //   },
+            // }}
           />
+          {/* lehne */}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Text in a modal
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography>
+            </Box>
+          </Modal>
         </Box>
       </Box>
     </Box>
