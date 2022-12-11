@@ -33,12 +33,10 @@ const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [currentEvents, setCurrentEvents] = useState([]);
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const handleDateClick = (selected) => {
     const title = prompt("Please enter a new title for your event");
+    const type = prompt("Please enter a new type for your event");
     const calendarApi = selected.view.calendar;
     calendarApi.unselect();
 
@@ -46,6 +44,7 @@ const Calendar = () => {
       calendarApi.addEvent({
         id: `${selected.dateStr}-${title}`,
         title,
+        type,
         start: selected.startStr,
         end: selected.endStr,
         allDay: selected.allDay,

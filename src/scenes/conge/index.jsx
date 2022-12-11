@@ -101,7 +101,7 @@ function EditToolbar(props) {
   );
 }
 
-export default function FullFeaturedCrudGrid() {
+export default function Conge() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [rows, setRows] = React.useState(initialRows);
