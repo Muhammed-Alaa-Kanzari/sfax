@@ -9,16 +9,33 @@ import {
   List,
   ListItem,
   ListItemText,
+  Modal,
   Typography,
   useTheme,
 } from "@mui/material";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [currentEvents, setCurrentEvents] = useState([]);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleDateClick = (selected) => {
     const title = prompt("Please enter a new title for your event");

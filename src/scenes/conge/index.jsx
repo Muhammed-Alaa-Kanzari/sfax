@@ -22,8 +22,44 @@ import {
 } from "@mui/x-data-grid-generator";
 import Header from "../../components/Header";
 import axios from "axios";
-import { useState } from "react";
-import { useEffect } from "react";
+
+const initialRows = [
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 25,
+    phone: randomPhoneNumber(),
+    email: randomEmail(),
+  },
+  {
+    id: randomId,
+    name: randomTraderName(),
+    age: 36,
+    phone: randomPhoneNumber(),
+    email: randomEmail(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 19,
+    phone: randomPhoneNumber(),
+    email: randomEmail(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 28,
+    phone: randomPhoneNumber(),
+    email: randomEmail(),
+  },
+  {
+    id: randomId(),
+    name: randomTraderName(),
+    age: 23,
+    phone: randomPhoneNumber(),
+    email: randomEmail(),
+  },
+];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -68,53 +104,31 @@ function EditToolbar(props) {
 export default function FullFeaturedCrudGrid() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [users, setUsers] = React.useState([
-    {
-      id: randomId(),
-      name: randomTraderName(),
-      age: 25,
-      phone: randomPhoneNumber(),
-      email: randomEmail(),
-    },
-    {
-      id: randomId(),
-      name: randomTraderName(),
-      age: 36,
-      phone: randomPhoneNumber(),
-      email: randomEmail(),
-    },
-    {
-      id: randomId(),
-      name: randomTraderName(),
-      age: 19,
-      phone: randomPhoneNumber(),
-      email: randomEmail(),
-    },
-    {
-      id: randomId(),
-      name: randomTraderName(),
-      age: 28,
-      phone: randomPhoneNumber(),
-      email: randomEmail(),
-    },
-  ]);
-  const [rows, setRows] = React.useState(users);
+  const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
-  // const [data, setData] = React.useState({
-  //   id: "",
-  //   name: "",
-  //   age: "",
-  //   phoneNumer: "",
-  //   email: "",
-  // });
-
-  /* find all users */
-  useEffect(() => {
-    axios.get("/api/users").then((res) => {
-      setUsers(res.data);
-    });
+  const [data, setData] = React.useState({
+    id: "",
+    name: "",
+    age: "",
+    phoneNumer: "",
+    email: "",
   });
 
+  // const deletePost = () => {
+  //   axios
+  //     .delete(``)
+  //     .then((response) => {
+  //       console.log("successfully add");
+  //       setData({
+  //         title: "",
+  //         body: "",
+  //       });
+  //       setMsg("delete successfully");
+  //     })
+  //     .catch(() => {
+  //       setMsg("error");
+  //     });
+  // };
   const handleRowEditStart = (params, event) => {
     event.defaultMuiPrevented = true;
   };
@@ -128,29 +142,11 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const handleSaveClick = (id) => () => {
-    const row = rows.find((row) => (row.id === id ? row : ""));
-    setUsers([
-      ...users,
-      {
-        id: row.id,
-        name: row.name,
-        age: row.age,
-        phoneNumer: row.phone,
-        email: row.email,
-      },
-    ]);
-    // API Call
-    axios.post("/api/users", users);
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
-    // Delete User
-    const row = rows.find((row) => (row.id === id ? row : ""));
-    const newUsers = users.filter((user) => user.id !== row.id);
-    setUsers(newUsers);
-    axios.delete(`/api/users/${id}`);
   };
 
   const handleCancelClick = (id) => () => {
@@ -193,13 +189,11 @@ export default function FullFeaturedCrudGrid() {
       field: "phone",
       headerName: "Phone Number",
       flex: 1,
-      editable: true,
     },
     {
       field: "email",
       headerName: "Email",
       flex: 1,
-      editable: true,
     },
     {
       field: "actions",
